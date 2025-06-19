@@ -13,19 +13,19 @@ import java.math.BigInteger
 
 
 fun main() = runBlocking {
-    val web3j = Web3j.build(HttpService("https://sepolia.infura.io/v3"))
-    val balance = getBalance(web3j, "")
+    val web3j = Web3j.build(HttpService("https://sepolia.infura.io/v3/d30908ae36cd407cb5389661dd926b05"))
+    val balance = getBalance(web3j, "0x2674e4Ca174eCe3A1F0c888689643c60A0d75738")
     println("Balance: $balance")
     val latestBlockNumber = getLatestBlockNumber(web3j)
     println("Latest block number: $latestBlockNumber")
-    val credentials = Credentials.create("YOUR_PRIVATE_KEY")
-    val toAddress = "0x4592d8f8d7b001e72cb26a73e4fa1806a51ac"
-    val amountInEther = BigDecimal.valueOf(0.1)
+    val credentials = Credentials.create("ba915b9190a2e4ef1a7e3e14f6055ea35eec7f1dea42ccc3abd74562a8201a97")
+    val toAddress = "0x2674e4Ca174eCe3A1F0c888689643c60A0d75738"
+    val fromAddress = "0x2674e4Ca174eCe3A1F0c888689643c60A0d75738"
+    val amountInEther = BigDecimal.valueOf(0.01)
     transferEth(web3j, credentials, toAddress, amountInEther)
-    val newBalance = getBalance(web3j, "")
+    val newBalance = getBalance(web3j, fromAddress)
     println("New balance: $newBalance")
-    val newLatestBlockNumber = getLatestBlockNumber(web3j)
-    println("Latest block number: $latestBlockNumber")
+
 
 }
 

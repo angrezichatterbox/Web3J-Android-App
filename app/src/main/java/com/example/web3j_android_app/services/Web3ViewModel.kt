@@ -2,12 +2,12 @@ package com.example.web3j_android_app.services
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.contracts.GreetUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.web3j.crypto.Credentials
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.DefaultBlockParameterName
-import org.web3j.protocol.core.methods.response.EthGetBalance
 import org.web3j.protocol.http.HttpService
 import org.web3j.tx.Transfer
 import org.web3j.tx.gas.StaticGasProvider
@@ -17,12 +17,15 @@ import java.math.BigInteger
 
 class Web3ViewModel : ViewModel() {
 
-    private val web3j = Web3j.build(HttpService("https://sepolia.infura.io/v3/d30908ae36cd407cb5389661dd926b05"))
-    private val credentials = Credentials.create("ba915b9190a2e4ef1a7e3e14f6055ea35eec7f1dea42ccc3abd74562a8201a97")
+    private val web3j = Web3j.build(HttpService("https://sepolia.infura.io/v3/----fill---"))
+    private val credentials = Credentials.create("--fill--")
+
     private val gasProvider = StaticGasProvider(
         Convert.toWei("20", Convert.Unit.GWEI).toBigInteger(),
         BigInteger.valueOf(3_000_000)
     )
+
+    private var greetContract: GreetUser? = null
 
     fun getBalance(address: String, onResult: (String) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -50,6 +53,44 @@ class Web3ViewModel : ViewModel() {
                 onResult("Success! Tx Hash: ${txReceipt.transactionHash}")
             } catch (e: Exception) {
                 onResult("Failed: ${e.message}")
+            }
+        }
+    }
+
+    fun deployContract(onResult: (String) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val contract = GreetUser.deploy(web3j, credentials, gasProvider).send()
+                greetContract = contract
+                onResult(contract.contractAddress)
+            } catch (e: Exception) {
+                onResult("Deployment failed: ${e.message}")
+            }
+        }
+    }
+
+    fun setUsername(name: String, onResult: (String) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                greetContract?.let {
+                    it.setUsername(name).send()
+                    onResult("Username set successfully.")
+                } ?: onResult("Contract not deployed yet.")
+            } catch (e: Exception) {
+                onResult("Error: ${e.message}")
+            }
+        }
+    }
+
+    fun greetUser(onResult: (String) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                greetContract?.let {
+                    val result = it.greet().send()
+                    onResult(result)
+                } ?: onResult("Contract not deployed yet.")
+            } catch (e: Exception) {
+                onResult("Error: ${e.message}")
             }
         }
     }
