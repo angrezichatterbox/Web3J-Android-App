@@ -45,7 +45,9 @@ android {
 }
 
 dependencies {
-    implementation("org.web3j:core:5.0.0")
+    implementation("org.web3j:core:4.12.3-android")
+    implementation("org.web3j:crypto:4.12.3-android")
+    implementation("org.web3j:utils:4.12.3-android")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
