@@ -28,11 +28,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -48,6 +48,14 @@ dependencies {
     implementation("org.web3j:core:4.12.3-android")
     implementation("org.web3j:crypto:4.12.3-android")
     implementation("org.web3j:utils:4.12.3-android")
+    implementation("org.web3j:abi:4.12.3-android")
+    implementation("org.slf4j:slf4j-android:1.7.36")
+    implementation("com.fasterxml.jackson.core:jackson-core:2.18.0")
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.18.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.0")
+    implementation("io.reactivex.rxjava2:rxjava:2.2.21")
+    implementation("org.bouncycastle:bcprov-jdk15to18:1.70")
+    implementation(libs.okhttp)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

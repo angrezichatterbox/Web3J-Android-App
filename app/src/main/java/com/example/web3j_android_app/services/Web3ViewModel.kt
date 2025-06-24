@@ -17,8 +17,8 @@ import java.math.BigInteger
 
 class Web3ViewModel : ViewModel() {
 
-    private val web3j = Web3j.build(HttpService("https://sepolia.infura.io/v3/----fill---"))
-    private val credentials = Credentials.create("--fill--")
+    private val web3j = Web3j.build(HttpService("https://sepolia.infura.io/v3/d30908ae36cd407cb5389661dd926b05"))
+    private val credentials = Credentials.create("ba915b9190a2e4ef1a7e3e14f6055ea35eec7f1dea42ccc3abd74562a8201a97")
 
     private val gasProvider = StaticGasProvider(
         Convert.toWei("20", Convert.Unit.GWEI).toBigInteger(),
